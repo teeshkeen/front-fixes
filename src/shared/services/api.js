@@ -65,12 +65,19 @@ export const productAPI = {
   updateProduct: (id, data) => 
     api.put(`/products/${id}`, data),
 
-  // Новый метод для обновления нескольких продуктов
-  updateProducts: async (products) => {
-    const promises = products.map(product => 
-      api.put(`/products/${product.id}`, product)
-    );
-    return Promise.all(promises);
+  getAllProducts: async () => {
+    const response = await axios.get('/api/products'); // Измените путь в зависимости от вашего маршрута
+    return response.data;
+  },
+
+  updateProductPrices: async (productIds, isIncrease, isDecrease, percentage) => {
+    const response = await axios.post('/api/products/update-prices', {
+      productIds,
+      isIncrease,
+      isDecrease,
+      percentage,
+    });
+    return response.data;
   },
   
   deleteProduct: async (id) => {
